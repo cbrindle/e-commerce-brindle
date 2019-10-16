@@ -82,6 +82,9 @@ module.exports = {
         return new Promise((resolve, reject)  =>{
             User.findById(id)
             .then(user => {
+                if (params.password != params.password2) {
+                    reject(err = 'Passwords MUST match')
+                }
                 if (params.name != '') {
                     user.profile.name = params.name;
                 }
@@ -91,6 +94,7 @@ module.exports = {
                 if (params.email != '') {
                     user.email = params.email;
                 }
+                
                 if (params.password != '') {
                     hasher.create(params.password)
                         .then(hash => {
