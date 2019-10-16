@@ -2,7 +2,6 @@ var express = require('express');
 const passport = require('passport');
 var router = express.Router();
 const signupValidation = require('./utils/signUpValidation')
-const profileUpdateValidator = require('../../views/account/profileUpdateValidator')
 
 
 const userController = require('./controllers/userController')
@@ -43,12 +42,16 @@ router.get('/profile', (req, res) => {
   }
 })
 
-router.post('/profile', profileUpdateValidator, (req, res) => {
-  if (req.validationErrors()) {
-    res.render('account/profile', { errors: req.validationErrors(), success: [] })
-  } else {
-    res.render('account/profile', { errors: [], success: ['Account updated successfully'] })
-  }
+router.put('/profile', (req, res) => {
+  userController.updateProfile(req.body, req.user._id)
+    .then(user => {
+      req.flash('success', 'User has been updated!')
+      res.redirect('/api/users/profile')
+    })
+    .catch(err => {
+      req.flash('errors', err)
+      res.redirect('/api/users/profile')
+    })
 })
 
 module.exports = router;

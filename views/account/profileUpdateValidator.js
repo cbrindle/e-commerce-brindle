@@ -22,6 +22,7 @@ const profileUpdateValidator = (req, res, next) => {
                     reject(err)
                 } else {
                     req.user.password = hash;
+                    console.log(req.user.password);
                 }
             })
         })

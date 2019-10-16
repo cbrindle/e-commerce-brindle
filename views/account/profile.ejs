@@ -11,7 +11,8 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
-
+                    <!-- Gravatar Image -->
+                    <img src="<%= user.profile.picture %>">
 
                 </div>
             </div>
@@ -98,6 +99,7 @@
     </div>
 
     <% include ../partials/footer %>
+    <script src="../../routes/users/utils/gravatar.js"></script>
 </body>
 
 </html>
