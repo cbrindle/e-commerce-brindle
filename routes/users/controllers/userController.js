@@ -79,41 +79,60 @@ module.exports = {
         })
     },
     updateProfile: (params, id) => {
-        return new Promise((resolve, reject)  =>{
+        return new Promise((resolve, reject)  => {
             User.findById(id)
-            .then(user => {
-                if (params.password != params.password2) {
-                    reject(err = 'Passwords MUST match')
-                }
-                if (params.name != '') {
-                    user.profile.name = params.name;
-                }
-                if (params.address != '') {
-                    user.address = params.address;
-                }
-                if (params.email != '') {
-                    user.email = params.email;
-                }
+                .then(user => {
+                    bcrypt.compare(params.password, user.password)
+                        .then(result => {
+                            if (!result) {
+                                console.log(`Old password did not match from 88`);
+                                reject(err)
+                            } else {
+                                console.log(`Old password MATCH from 91`);
+                                resolve(result)
+                            }
+                        })
+                        .catch(error => reject(err = error))
+                    })
                 
-                if (params.password != '') {
-                    hasher.create(params.password)
-                        .then(hash => {
-                            user.password = hash;
+                .then(result => {
+                    console.log(result);
+                    if (result === undefined) {
+                        reject(err = 'Old password INCORRECT')
+                        return
+                    }
+                    if (params.password2 != params.password3) {
+                        reject(err = 'Passwords MUST match')
+                        return
+                    }
+                    if (params.name != '') {
+                        user.profile.name = params.name;
+                    }
+                    if (params.address != '') {
+                        user.address = params.address;
+                    }
+                    if (params.email != '') {
+                        user.email = params.email;
+                    }
+                    
+                    if (params.password != '') {
+                        hasher.create(params.password)
+                            .then(hash => {
+                                user.password = hash;
+                            })
+                            .catch(err => {
+                                reject(err)
+                            })
+                    }
+
+                    user.save()
+                        .then(user => {
+                            resolve(user)
                         })
                         .catch(err => {
                             reject(err)
                         })
-                }
-
-                user.save()
-                    .then(user => {
-                        resolve(user)
-                    })
-                    .catch(err => {
-                        reject(err)
                     })
             })
-        })
+        }
     }
-
-}
