@@ -49,6 +49,7 @@ router.put('/profile', (req, res) => {
       res.redirect('/api/users/profile')
     })
     .catch(err => {
+      console.log(err);
       req.flash('errors', err)
       res.redirect('/api/users/profile')
     })

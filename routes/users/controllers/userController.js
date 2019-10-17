@@ -78,6 +78,7 @@ module.exports = {
                 .catch(err => reject(err))
         })
     },
+    //FIXME needs some kind of await
     updateProfile: (params, id) => {
         return new Promise((resolve, reject)  => {
             User.findById(id)
@@ -85,15 +86,16 @@ module.exports = {
                     bcrypt.compare(params.password, user.password)
                         .then(result => {
                             if (!result) {
+                                console.log(`old pass NOT CORRECT`);
                                 reject(err = 'Old password INCORRECT')
                                 return
                             } else {
-                                resolve(result)
+                                console.log(`old pass MATCHES`);
+                                resolve(user)
                             }
                         })
                         .catch(error => reject(err = error))
                     })
-                
                 .then(user => {
                     if (params.password2 != params.password3) {
                         reject(err = 'Passwords MUST match')
@@ -109,8 +111,8 @@ module.exports = {
                         user.email = params.email;
                     }
                     
-                    if (params.password != '') {
-                        hasher.create(params.password)
+                    if (params.password2 != '' && params.password3 != '') {
+                        hasher.create(params.password2)
                             .then(hash => {
                                 user.password = hash;
                             })
@@ -127,7 +129,7 @@ module.exports = {
                             reject(err)
                         })
                     })
-                .catch(err => reject(err = 'Old password does not match'))
+                .catch(err => reject(err))
             })
         }
     }
