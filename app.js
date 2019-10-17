@@ -9,6 +9,7 @@ const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator');
 const methodOverride = require('method-override');
+const Category = require('./routes/products/models/Category')
 
 let MongoStore = require('connect-mongo')(session)
 
@@ -88,6 +89,15 @@ app.use((req, res, next) => {
   res.locals.loginMessage = req.flash('loginMessage')
 
   next()
+})
+
+app.use((req, res, next) => {
+  Category.find({})
+    .then(categories => {
+      res.locals.categories = categories
+      next()
+    })
+    .catch(error => next(error))
 })
 
 app.use('/', indexRouter);
