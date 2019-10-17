@@ -85,22 +85,16 @@ module.exports = {
                     bcrypt.compare(params.password, user.password)
                         .then(result => {
                             if (!result) {
-                                console.log(`Old password did not match from 88`);
-                                reject(err)
+                                reject(err = 'Old password INCORRECT')
+                                return
                             } else {
-                                console.log(`Old password MATCH from 91`);
                                 resolve(result)
                             }
                         })
                         .catch(error => reject(err = error))
                     })
                 
-                .then(result => {
-                    console.log(result);
-                    if (result === undefined) {
-                        reject(err = 'Old password INCORRECT')
-                        return
-                    }
+                .then(user => {
                     if (params.password2 != params.password3) {
                         reject(err = 'Passwords MUST match')
                         return
@@ -133,6 +127,7 @@ module.exports = {
                             reject(err)
                         })
                     })
+                .catch(err => reject(err = 'Old password does not match'))
             })
         }
     }
