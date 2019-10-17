@@ -1,6 +1,6 @@
 const Category = require('../../products/models/Category');
 
-const categoryValidator = (req, res, next) => {
+const categoryValidator = (req, res) => {
     if (req.body.name === '') {
         req.flash('errors', 'Field cannot be blank')
         res.redirect('/api/admin/add-category')
