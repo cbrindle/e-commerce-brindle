@@ -17,9 +17,9 @@
             </button>
         </div>
         <%}%>
-        <%for (let i= 0 ; i <errorValidate.length; i++){%>
+        <%for (let err of errors){%>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <%= errorValidate[i].message%>
+            <%= err%>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

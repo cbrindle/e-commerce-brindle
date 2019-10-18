@@ -15,6 +15,7 @@ router.get('/signup', (req, res) => {
 
   res.render('auth/signup')
 })
+
 router.post('/signup', signupValidation, userController.signup)
 
 router.get('/signin', (req, res) => {
@@ -42,17 +43,6 @@ router.get('/profile', (req, res) => {
   }
 })
 
-router.put('/profile', (req, res) => {
-  userController.updateProfile(req.body, req.user._id)
-    .then(user => {
-      req.flash('success', 'User has been updated!')
-      res.redirect('/api/users/profile')
-    })
-    .catch(err => {
-      console.log(err);
-      req.flash('errors', err)
-      res.redirect('/api/users/profile')
-    })
-})
+router.post('/profile', userController.updateProfile)
 
 module.exports = router;
