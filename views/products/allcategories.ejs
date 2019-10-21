@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-    <% include ../partials/nav %>
-    <% include ../partials/scripts %>
+<% include ../partials/nav %>
+<% include ../partials/scripts %>
 
 
 <body style="padding: 100px;">
@@ -21,17 +21,19 @@
     <% } %>
 
     <% for (let error of errors) { %>
-    
+
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    
+
         <%= error  %>
-    
+
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    
+
     <% } %>
+
+    <h1 class="text-center">Available Categories</h1>
 
 
 
@@ -39,10 +41,10 @@
 
         <% for (let category of categories) { %>
 
-            <% let link = `/${category.name}/${category._id}` %>
+        <% let link = `${category._id}` %>
 
         <li class="list-group-item">
-            <a href="/api/admin/create-fake-product<%= link%>"><%= category.name%></a>
+            <a href="/api/products/getcategorybyid/<%= link%>"><%= category.name%></a>
         </li>
 
         <% } %>

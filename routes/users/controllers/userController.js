@@ -43,8 +43,7 @@ module.exports = {
             }
         })
     },
-    
-    //FIXME needs some kind of await
+
     updateProfile: (req, res) => {
         if (req.body.password != '') {
             bcrypt.compare(req.body.password, req.user.password, (err, result) => {                
