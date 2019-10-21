@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const categoryTool = require('./utils/categoryTool')
 const createProductController = require('./controllers/createProductController');
+const removeProduct = require('./controllers/removeProduct');
 
 // Test to ensure /api/admin is working
 router.get('/', (req, res) => {
-    res.send('hey from admin!')
+    res.render('admin/admin')
 })
 
 // Displays page for /api/admin/add-category
@@ -23,6 +24,14 @@ router.get('/get-all-categories', categoryTool.getAllCategories)
 
 // (Des)
 router.get('/create-fake-product/:categoryName/:categoryID', createProductController.createProductByCategoryID)
+
+// Renders the remove product page for an admin to use
+router.get('/removeproduct', (req, res) => {
+    res.render('products/remove')
+})
+
+// Removes the desired product from the remove product page
+router.post('/removeproduct', removeProduct.remove)
 
 
 module.exports = router

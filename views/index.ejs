@@ -42,7 +42,11 @@
   <script>
   
     $(document).on('click', '#testID', (event) => {
-      $('#testID').text('updated')
+      if ($('#testID').html() != 'updated') {
+        $('#testID').text('updated')
+      } else {
+        $('#testID').text('Some text')
+      }
     })
     
 
