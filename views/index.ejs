@@ -38,6 +38,16 @@
   <% include ./partials/main %>
   <% include ./partials/footer %>
 
+  <p id="testID">Some Text</p>
+  <script>
+  
+    $(document).on('click', '#testID', (event) => {
+      $('#testID').text('updated')
+    })
+    
+
+  </script>
+
 </body>
 
 </html>

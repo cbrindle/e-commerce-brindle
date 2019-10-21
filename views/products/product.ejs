@@ -26,18 +26,18 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="hidden" name='productID' id='productID' value=""></input>
-                    <input type="hidden" name='priceHidden' id='priceHidden' value=""></input>
+                    <input type="hidden" name='productID' id='productID' value="<%= product["_id"] %>" />
+                    <input type="hidden" name='priceHidden' id='priceHidden' value="<%= product["price"] %>" />
 
-                    <input type="text" class="form-control" name='item' id='item' value=''></input>
-                    <input type="text" class="form-control" name='priceValue' id='priceValue' value=''></input>
+                    <input type="text" class="form-control" name='item' id='item' value="<%= product["name"] %>" disabled />
+                    <input type="text" class="form-control" name='priceValue' id='priceValue' value="$<%= product["price"] %>" disabled />
                 </div>
 
-
+                <% if (user) {%>
                 <button type='submit' class='btn btn-primary btn-lg'>Add to cart</button>
-
-                <a href='/api/users/signup'>Sign up to begin buying!</a>
-
+                <%} else { %>
+                <a href='/api/users/signup' style="color: white; font-weight: bold;">Sign up to begin buying!</a>
+                <% } %>
 
             </form>
         </div>
