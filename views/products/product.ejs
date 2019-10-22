@@ -15,7 +15,7 @@
         </div>
         <div class="col">
             <h1>Name: <%= product["name"] %></h1>
-            <h2>Price: $<%= product["price"] %></h2>
+            <h2>Price: <%= (product["price"].toFixed(2)) %></h2>
 
             <form method='POST' action='/api/cart/product'>
                 <div class="btn-group" role="group" aria-label="...">
@@ -30,7 +30,7 @@
                     <input type="hidden" name='priceHidden' id='priceHidden' value="<%= product["price"] %>" />
 
                     <input type="text" class="form-control" name='item' id='item' value="<%= product["name"] %>" disabled />
-                    <input type="text" class="form-control" name='priceValue' id='priceValue' value="$<%= product["price"] %>" disabled />
+                    <input type="text" class="form-control" name='priceValue' id='priceValue' value="<%= product["price"] %>" disabled />
                 </div>
 
                 <% if (user) {%>
@@ -45,6 +45,7 @@
     </div>
 
     <% include ../partials/footer %>
+    <script src="/javascripts/addAndMinusProduct.js"></script>
 </body>
 
 </html>
