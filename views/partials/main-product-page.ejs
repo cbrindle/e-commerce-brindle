@@ -47,12 +47,12 @@
     <!-- Set the value of i based on the current page the user is on -->
     <% let i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
     
-    // If the user is NOT on the first page, the ... link is disabled
+    <!-- If the user is NOT on the first page, the ... link is disabled -->
     <% if (i !== 1) { %>
         <li class="disabled page-item"><a class="page-link">...</a></li>
     <% } %>
 
-    // Runs a loop using the value of i and populates the list with links
+    <!-- Runs a loop using the value of i and populates the list with links -->
     <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
         <% if (i == current) { %>
             <li class="active page-item"><a class="page-link"><%= i %></a></li>
@@ -64,13 +64,13 @@
         <% } %>
     <% } %>
     
-    //  If user is on the last page, disables the Last link
+    <!-- If user is on the last page, disables the Last link -->
     <% if (current == pages) { %>
         <li class="disabled page-item"><a class="page-link">Last</a></li>
     <% } else { %>
         <li class="page-item"><a class="page-link" href="/page/<%= pages %>">Last</a></li>
     <% } %>
 
-// Closes the unordered list
+<!-- Closes the unordered list -->
 </ul>
 <% } %>
