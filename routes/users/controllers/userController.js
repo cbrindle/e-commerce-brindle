@@ -30,7 +30,6 @@ module.exports = {
                 })
 
                 setTimeout(() => {
-                    console.log(newUser.password);
                     newUser.save()
                     req.login(newUser, (err) => {
                         if (err) {
@@ -48,8 +47,7 @@ module.exports = {
         if (req.body.password != '') {
             bcrypt.compare(req.body.password, req.user.password, (err, result) => {                
                 if (err) {
-                    console.log(err);
-                    return
+                    throw err
                 }
                 if (!result) {
                     req.flash('errors', 'Old password is incorrect')

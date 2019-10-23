@@ -11,8 +11,7 @@ module.exports = {
 
         Category.findOne({ name: req.body.name }, (err, result) => {
             if (err) {
-                console.log(err);
-                return
+                throw err
             } else if (!result) {
                 const newCat = new Category;
                 newCat.name = req.body.name;

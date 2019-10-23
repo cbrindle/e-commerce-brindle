@@ -1,6 +1,8 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 
+const paginate = require('../utils/pagination')
+
 module.exports = {
     // FIXME: Add function to display all products, regardless of category
 
@@ -30,7 +32,7 @@ module.exports = {
                         
                     })
                     .catch(err => {
-                        console.log(err);
+                        throw err
                     })
     },
 
@@ -42,5 +44,25 @@ module.exports = {
                     .catch(err => {
                         throw err
                     })
+    },
+
+    allProducts: (req, res) => {
+        Product.find({})
+            .populate('category')
+            .exec()
+            .then(products => {
+                res.render('products/allproducts', {products, products})
+            })
+            .catch(err => {
+                throw err
+            })
+    },
+
+    getPageIfLoggedIn: (req, res, next) => {
+        if (req.user) {
+            paginate(req, res)
+        } else {
+            res.render('index')
+        }
     }
 }

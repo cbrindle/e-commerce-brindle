@@ -7,13 +7,12 @@
 
 <body>
     <% include ../partials/nav %>
-    <% console.log(catName) %>
-
+<div class="container">
     <div class="row">
         <% for (let p of products) { %>
         <div class="col">
         
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 15rem;">
                 <a href="/api/products/<%= p["_id"] %>">
                     <img class="card-img-top" src="<%= p["image"] %>" alt="Card image cap" />
                 </a>
@@ -27,7 +26,7 @@
         </div>
         <% } %>
     </div>
-
+</div>
     <% include ../partials/footer %>
 </body>
 

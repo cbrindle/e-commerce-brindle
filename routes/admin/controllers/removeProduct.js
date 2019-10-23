@@ -9,7 +9,6 @@ module.exports = {
                 req.flash('errors', `"${req.body.product}" was not found in the database`)
                 res.redirect('/api/admin/removeproduct')
             } else {
-                console.log(result);
                 req.flash('success', `"${result.name}" has been removed`)
                 res.status(302).redirect('/api/admin/removeproduct')
             }
