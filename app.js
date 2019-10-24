@@ -17,6 +17,9 @@ const indexRouter = require('./routes');
 const usersRouter = require('./routes/users/users');
 const productsRouter = require('./routes/products/products')
 const adminRouter = require('./routes/admin/admin')
+const cartRouter = require('./routes/cart/cart')
+
+const cartMiddleware = require('./routes/cart/utils/cartMiddleware')
 
 require('dotenv').config()
 
@@ -46,7 +49,7 @@ app.use(session({
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
-    url: process.env.MONGODB_URI,
+    mongooseConnection: mongoose.connection,
     autoReconnect: true
   }),
   cookie: {
@@ -100,10 +103,13 @@ app.use((req, res, next) => {
     .catch(error => next(error))
 })
 
+app.use(cartMiddleware)
+
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/products', productsRouter);
+app.use('/api/cart', cartRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -12,7 +12,7 @@
         <div class="col">
             <div class="card" style="width: 18rem;">
                 <a href="/api/products/<%= product._id %>">
-                    <img class="card-img-top" src="<%= product.image %>" alt="Card image cap" />
+                    <img class="card-img-top" src="/images/placeholder.jpg" alt="Card image cap" />
                 </a>
                 <div class="card-body">
                     <h5 class="card-title">Name: <%= product.name %></h5>
@@ -38,19 +38,23 @@
     <!-- Checks if the user is on the first page -->
     <% if (current == 1) { %>
 
+
         <!-- If user is on the first page, links to the first page are disabled -->
         <li class="disabled page-item"><a class="page-link">First</a></li>
     <% } else { %>
         <li class="page-item"><a class="page-link" href="/page/1">First</a></li>
     <% } %>
+    
 
     <!-- Set the value of i based on the current page the user is on -->
     <% let i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+
     
     <!-- If the user is NOT on the first page, the ... link is disabled -->
     <% if (i !== 1) { %>
         <li class="disabled page-item"><a class="page-link">...</a></li>
     <% } %>
+
 
     <!-- Runs a loop using the value of i and populates the list with links -->
     <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
@@ -63,6 +67,7 @@
             <li class="disabled page-item"><a class="page-link">...</a></li>
         <% } %>
     <% } %>
+
     
     <!-- If user is on the last page, disables the Last link -->
     <% if (current == pages) { %>
@@ -70,6 +75,7 @@
     <% } else { %>
         <li class="page-item"><a class="page-link" href="/page/<%= pages %>">Last</a></li>
     <% } %>
+    
 
 <!-- Closes the unordered list -->
 </ul>

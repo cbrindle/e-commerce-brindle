@@ -9,7 +9,7 @@ let UserSchema = new mongoose.Schema({
         picture: { type: String, default: "" }
     },
     address: { type: String, default: "" },
-    timestamp: { type: String, default: () => moment().format('dddd, MMMM Do YYYY, h:mm:ss a') }
+    timestamp: { type: String, default: () => moment().format('dddd, MMMM Do YYYY, h:mm:ss a') },
 
 })
 

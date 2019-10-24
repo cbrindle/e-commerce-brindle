@@ -2,6 +2,7 @@ var express = require('express');
 const passport = require('passport');
 var router = express.Router();
 const signupValidation = require('./utils/signUpValidation')
+const cartController = require('../cart/controllers/cartController')
 
 
 const userController = require('./controllers/userController')
@@ -16,7 +17,7 @@ router.get('/signup', (req, res) => {
   res.render('auth/signup')
 })
 
-router.post('/signup', signupValidation, userController.signup)
+router.post('/signup', signupValidation, userController.signup, cartController.createUserCart)
 
 router.get('/signin', (req, res) => {
   if (req.isAuthenticated()) return res.redirect('/')

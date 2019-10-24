@@ -2,6 +2,7 @@ const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 const hasher = require('../utils/hasher')
 const getGravatar = require('../utils/gravatar')
+const cartController = require('../../cart/controllers/cartController')
 
 module.exports = {
     signup: (req, res, next) => {
@@ -27,18 +28,15 @@ module.exports = {
                         throw new Error('error from 25')
                     }
                     newUser.password = hash
-                })
-
-                setTimeout(() => {
                     newUser.save()
                     req.login(newUser, (err) => {
                         if (err) {
-                            throw Error('error')
+                            throw Error(err)
+                        } else {
+                            next()
                         }
-                        return res.redirect('/')
                     })
-                    
-                }, 200);
+                })   
             }
         })
     },
