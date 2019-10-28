@@ -9,8 +9,6 @@ router.post('/product', cartController.addProductToCart, (req, res) => {
     res.redirect('/')
 })
 
-router.delete('/remove', (req, res) => {
-    res.send('Dont know how to delete product yet')
-})
+router.delete('/remove', cartController.removeProduct)
 
 module.exports = router
