@@ -1,7 +1,15 @@
 <div class="jumbotron">
     <div class="container">
         <h1 class="display-3 text-center">Best Online Shopping</h1>
+        <br>
+        <!-- Start instant search bar -->
+        <h5>Search</h5>
+        <form action="/" class="form-inline my-2 my-lg-0" method="POST">
+            <input id="instantSearch" size="100%" style="border: 1px solid black;" type="text" class="form-control" aria-label="Search" name="instantSearch">
+        </form>
+        <!-- End instant search bar -->
     </div>
+    
 </div>
 
 <div class="container">
@@ -19,7 +27,7 @@
                     <h5 class="card-title">Name: <%= product.name %></h5>
                     <p class="card-text">Category: <%= product.category.name %></p>
                     <p class="card-text">$<%= product.price %></p>
-                    <a href="/api/products/<%= product._id %>" class="btn btn-primary">Shop</a>
+                    <center><a href="/api/products/<%= product._id %>" class="btn btn-primary" style="width: 9vw;">Buy</a></center>
                 </div>
             </div>
         </div>
@@ -81,3 +89,5 @@
 <!-- Closes the unordered list -->
 </ul>
 <% } %>
+
+<script src="/javascripts/instant-search.js"></script>

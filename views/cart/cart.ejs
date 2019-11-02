@@ -99,13 +99,17 @@
                                             </div>
                                         </div>
                                         <div class="panel-body">
-                                            <form role="form" id="payment-form">
+
+                                            <form role="form" id="payment-form" method="POST" action="/api/cart/payment">
+                                                <% if (carts) { %>
+                                                <input type="hidden" name="stripeMoney" value="<%= carts.total %>" />
+                                                <% } %>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
                                                             <label for="cardNumber">CARD NUMBER</label>
                                                             <div class="input-group">
-                                                                <input type="tel" class="form-control" name="cardNumber" placeholder="Valid Card Number"
+                                                                <input id="card-number" type="tel" class="form-control" name="cardNumber" placeholder="Valid Card Number"
                                                                     autocomplete="cc-number" required autofocus />
                                                                 <span class="input-group-addon"></span>
                                                             </div>
@@ -117,25 +121,25 @@
                                                         <div class="form-group">
                                                             <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span
                                                                     class="visible-xs-inline">EXP</span> DATE</label>
-                                                            <input type="tel" class="form-control" name="cardExpiry" placeholder="MM / YY"
+                                                            <input id="card-expiry-month-year" type="tel" class="form-control" name="cardExpiry" placeholder="MM / YY"
                                                                 autocomplete="cc-exp" required />
                                                         </div>
                                                     </div>
                                                     <div class="col">
                                                         <div class="form-group">
                                                             <label for="cardCVC">CV CODE</label>
-                                                            <input type="tel" class="form-control" name="cardCVC" placeholder="CVC"
+                                                            <input id="card-cvc" type="tel" class="form-control" name="cardCVC" placeholder="CVC"
                                                                 autocomplete="cc-csc" required />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col justify-content-center">
-                                                        <button class="btn btn-success btn-lg btn-block text-center" type="submit">Pay $<%= carts.total %></button>
+                                                        <button id="paySubmit" class="btn btn-success btn-lg btn-block text-center" type="submit">Pay $<%= carts.total %></button>
                                                     </div>
                                                 </div>
-                                                <div class="row" style="display:none;">
-                                                    <div class="col-xs-12">
+                                                <div id="payErrorDiv" class="row" style="display:none;">
+                                                    <div class="col">
                                                         <p class="payment-errors"></p>
                                                     </div>
                                                 </div>
@@ -155,7 +159,7 @@
     
     <script>
     function changeColor(event) {
-        event.target.style.color = "brown"
+        event.target.style.color = "blue"
     }
     function colorBack(event) {
         event.target.style.color = "purple"

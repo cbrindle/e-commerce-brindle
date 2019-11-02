@@ -1,6 +1,6 @@
-var express = require('express');
+const express = require('express');
 const passport = require('passport');
-var router = express.Router();
+const router = express.Router();
 const signupValidation = require('./utils/signUpValidation')
 const cartController = require('../cart/controllers/cartController')
 
