@@ -1,84 +1,90 @@
 const Cart = require('../models/Cart')
-const Product = require('../../products/models/Product')
-
 
 module.exports = {
     createUserCart: (req, res) => {
-        const newCart = new Cart
-        newCart.owner = req.user._id
-        newCart.save((error) => {
+        let cart = new Cart()
+
+        cart.owner = req.user._id
+
+        cart.save((error) => {
             if (error) {
                 res.status(500).json({
                     confirmation: 'failure',
-                    message: 'error'
+                    message: error
                 })
             } else {
                 res.redirect('/')
             }
         })
     },
-
-    addProductToCart: (req, res, next) => {
+    addProductToCart: (req, res) => {
         Cart.findOne({ owner: req.user._id })
             .then(cart => {
+                const totalPrice = parseFloat(req.body.priceValue)
+
                 cart.items.push({
-                    item: req.body.productID,
-                    quantity: parseInt(req.body.quantity),
-                    price: parseFloat(req.body.priceHidden * req.body.quantity)})
-                let totalPrice = 0;
-                for (let i = 0; i < cart.items.length; i++) {
-                    totalPrice += cart.items[i].price
-                }
-                cart.total = totalPrice
+                    item:     req.body.productID,
+                    price:    totalPrice,
+                    quantity: parseInt(req.body.quantity)
+                })
+
+                cart.total = (cart.total + totalPrice).toFixed(2)
+
                 cart.save()
                     .then(cart => {
+                        res.redirect('/api/cart')
                     })
                     .catch(err => {
-                        throw Error
+                        let errors     = {}
+                        errors.status  = 500
+                        errors.message = err
+
+                        res.status(errors.status).json(errors)
                     })
             })
-            .catch(err => {
-                throw Error(err)
-            })
-        next()
     },
-
     getUserShoppingCart: (req, res) => {
         Cart.findOne({ owner: req.user._id })
-            .populate("items.item")
+            .populate('items.item')
             .exec()
             .then(cart => {
-                res.render('cart/cart', {carts: cart})
+                res.render('cart/cart', { foundCart: cart })
             })
             .catch(err => {
-                throw Error(err)
+                let errors     = {}
+                errors.status  = 500
+                errors.message = err
+
+                res.status(errors.status).json(errors)
             })
     },
-
     removeProduct: (req, res) => {
         Cart.findOne({ owner: req.user._id })
-            // .populate("items.item")
-            // .exec()
             .then(cart => {
-                // PULL method ONLY for mongoose
                 cart.items.pull(req.body.item)
-                // let newCart = cart.items.filter(item => item._id != req.body.item)
-                // cart.items = newCart
-                cart.total = 0
-                for (let i = 0; i < cart.items.length; i++) {
-                    cart.total += cart.items[i].price
-                }
+
+                cart.total = (cart.total - parseFloat(req.body.price).toFixed(2))
+
                 cart.save()
                     .then(cart => {
-                        req.flash('success', 'Successfully removed')
+                        req.flash('success', 'Successfully removed!')
+
                         res.redirect('back')
                     })
                     .catch(err => {
-                        throw Error(err)
+                        let errors     = {}
+                        errors.status  = 500
+                        errors.message = err
+        
+                        res.status(errors.status).json(errors)
                     })
             })
             .catch(err => {
-                throw Error(err)
+                let errors     = {}
+                errors.status  = 500
+                errors.message = err
+
+                res.status(errors.status).json(errors)
             })
     }
 }

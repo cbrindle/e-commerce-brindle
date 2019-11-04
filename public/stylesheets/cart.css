@@ -3,8 +3,8 @@
     right:0%;
     top:0%;
     content: attr(data-count);
-    font-size:55%;
-    padding:0.45em;
+    font-size:40%;
+    padding:.6em;
     border-radius:999px;
     line-height: .75em;
     color: white;
@@ -16,6 +16,10 @@
     border-style:solid;
 }
 
-.fa-shopping-bag {
+.fa-stack {
+    line-height: 2.5em;
+}
+
+.fa-cart-plus {
     color: orange;
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<% include ../partials/head %>
+
+<body>
+    <% include ../partials/nav %>
+    <br><br>
+    <% console.log(data) %>
+
+    <% for (product of data) { %>
+    <div class="list-group mx-auto" style="width: 40%;">
+        <a href="/api/admin/editproduct/<%= product.category %>/<%= product._id %>" class="list-group-item list-group-item-action"><%= product.name %></a>
+    </div>
+    
+    
+    <% } %>
+    
+
+
+    <% include ../partials/footer %>
+</body>
+</html>

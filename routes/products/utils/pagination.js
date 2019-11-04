@@ -1,23 +1,44 @@
 const Product = require('../models/Product')
 
 const paginate = (req, res) => {
-    const perPage = 9;
-    const page = req.params.page || 1
+    let perPage = 9
+    let page    = req.params.page
 
-    Product.find({})
-            .populate('category')
-            .skip((perPage * page) - perPage)
-            .limit(perPage)
-            .exec(function(err, products) {
-                Product.countDocuments().exec(function(err, count) {
-                    if (err) return next(err)
+    Product
+        .find({})
+        .skip(perPage * (page - 1))
+        .limit(perPage)
+        .populate('category')
+        .exec()
+        .then(products => products)
+        .then(products => {
+            Product
+                .countDocuments()
+                .exec()
+                .then(count => {
                     res.render('products/product-main', {
                         products: products,
-                        current: page,
-                        pages: Math.ceil(count / perPage)
+                        pages: Math.ceil(count / perPage),
+                        current: Number(page),
+                        nextPage: Number(page) + 1,
+                        previousPage: Number(page) - 1
                     })
                 })
-            })
+                .catch(err => {
+                    let errors = {}
+                    errors.status = 500
+                    errors.message = err
+
+                    res.status(errors).json(errors)
+                })
+        })
+        .catch(err => {
+            let errors = {}
+            errors.status = 500
+            errors.message = err
+
+            res.status(errors).json(errors)
+        })
 }
 
 module.exports = paginate

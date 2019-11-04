@@ -1,33 +1,21 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs')
 
 module.exports = {
     create: (str) => {
-        if (str === ''){
-            throw Error('password string is empty')
-        }
-        bcrypt.hash(str, 10, (err, hash) => {
-            if (err) {
-                throw Error('error')
-            }
-            return hash
+        return new Promise((resolve, reject) => {
+            if (str === '') reject('Creating hash from an empty string!')
+    
+            bcrypt.genSalt(10, (error, salt) => {
+                if (error) reject(error)
+    
+                bcrypt.hash(str, salt, (err, hash) => {
+                    if (err) reject(err)
+    
+                    resolve(hash)
+                })
+            })
         })
-
-        // return new Promise((resolve, reject) => {
-        //     if (str === '') {
-        //         reject('Password cannot be empty')
-        //     }
-
-        //     bcrypt.genSalt(10, (error, salt) => {
-        //         if (error) {
-        //             reject(error)
-        //         } 
-
-        //         bcrypt.hash(str, salt, (err, hash) => {
-        //             if (err) reject(err)
-
-        //             resolve(hash)
-        //         })
-        //     })
-        // })
-    }
+    },
+    compare: (str, hash) => bcrypt.compare(str, hash)
+    
 }

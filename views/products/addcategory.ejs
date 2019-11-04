@@ -1,47 +1,33 @@
 <!doctype html>
 <html lang="en">
-    <% include ../partials/scripts %>
+
     <% include ../partials/account %>
+
+
+  <body class="text-center">
+
     <% include ../partials/nav %>
-
-
-
-<body class="text-center">
-
 
     <form class="form-signin" method="POST" action="/api/admin/add-category">
 
-        <!-- Error messages displayed here -->
-        <% for (let error of errors) { %>
+            <% for (let error of errors) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%= error %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <% } %>
 
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <% for (let s of success) { %>
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <%= s %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <% } %>
 
-            <%= error %>
-
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-
-        <% } %>
-        <!-- End of error message section -->
-
-
-        <!-- Success messages displayed here -->
-        <% for (let s of success) { %>
-
-        <div class="alert alert-primary alert-dismissible fade show" role="alert">
-
-            <%= s %>
-
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-
-        <% } %>
-        <!-- End of success message section -->
-        
         <h1 class="h3 mb-3 font-weight-normal">Enter category name</h1>
 
         <label for="inputName" class="sr-only">Category Name</label>
@@ -51,8 +37,7 @@
         <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
     </form>
 
-
     <% include ../partials/footer %>
-</body>
 
+</body>
 </html>

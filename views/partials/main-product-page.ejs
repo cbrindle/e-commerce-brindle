@@ -1,93 +1,53 @@
 <div class="jumbotron">
     <div class="container">
         <h1 class="display-3 text-center">Best Online Shopping</h1>
-        <br>
-        <!-- Start instant search bar -->
-        <h5>Search</h5>
-        <form action="/" class="form-inline my-2 my-lg-0" method="POST">
-            <input id="instantSearch" size="100%" style="border: 1px solid black;" type="text" class="form-control" aria-label="Search" name="instantSearch">
-        </form>
-        <!-- End instant search bar -->
     </div>
-    
+
+    <% include ../partials/instant-search %>
+
 </div>
 
-<div class="container">
-
-    <div class="row" id="productSearchResults">
-
-        <% for (product of products) { %>
-
-        <div class="col">
-            <div class="card" style="width: 18rem;">
-                <a href="/api/products/<%= product._id %>">
-                    <img class="card-img-top" src="/images/placeholder.jpg" alt="Card image cap" />
-                </a>
+<div class="row" id="productSearchResults">
+    <% for (let product of products) { %>
+        <div class="col">      
+            <div class="card">
+                <a href="/api/products/<%= product._id %>"> 
+                <!-- <img class="card-img-top" src="product.image" alt="Card image cap" /> -->
+                <img class="card-img-top" src="/images/product.jpeg" alt="Card image cap" />
+                </a> 
                 <div class="card-body">
-                    <h5 class="card-title">Name: <%= product.name %></h5>
-                    <p class="card-text">Category: <%= product.category.name %></p>
-                    <p class="card-text">$<%= product.price %></p>
-                    <center><a href="/api/products/<%= product._id %>" class="btn btn-primary" style="width: 9vw;">Buy</a></center>
+                <h5 class="card-title">Name: <%= product.name %></h5>
+                <p class="card-text">Category: <%= product.category.name %></p>
+                <p class="card-text">$ <%= product.price %></p>
+                <a href="/api/products/<%= product._id %>" class="btn btn-primary">Shop</a>
                 </div>
             </div>
         </div>
-
-        <% } %>
-
-    </div>
+    <% } %>
 </div>
 
-<br>
-<!-- Checks to see if req.params.page has a value and is above 1 -->
-<% if (pages > 0) { %>
-    
-    <!-- Initiate an unordered list with the bootstrap class of large pagination and to center the list -->
-<ul class="pagination pagination-lg justify-content-center">
-    
-    <!-- Checks if the user is on the first page -->
-    <% if (current == 1) { %>
+<nav aria-label="Page navigation example" class="d-flex justify-content-center">
+    <ul class="pagination">
+          
+        <li class="page-item <%= (current === 1) ? 'disabled' : '' %>">
+            <a class="page-link" href="/page/<%= previousPage %>" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        
+        <li>
+            <% for (let i = 1; i <= pages; i++) { %>
+                <li class="page-item <%= (i === current) ? 'disabled' : '' %>"><a class="page-link" href="/page/<%= i %>"><%= i %></a></li>
+            <% } %>
+        </li>
 
-
-        <!-- If user is on the first page, links to the first page are disabled -->
-        <li class="disabled page-item"><a class="page-link">First</a></li>
-    <% } else { %>
-        <li class="page-item"><a class="page-link" href="/page/1">First</a></li>
-    <% } %>
-    
-
-    <!-- Set the value of i based on the current page the user is on -->
-    <% let i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-
-    
-    <!-- If the user is NOT on the first page, the ... link is disabled -->
-    <% if (i !== 1) { %>
-        <li class="disabled page-item"><a class="page-link">...</a></li>
-    <% } %>
-
-
-    <!-- Runs a loop using the value of i and populates the list with links -->
-    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-        <% if (i == current) { %>
-            <li class="active page-item"><a class="page-link"><%= i %></a></li>
-        <% } else { %>
-            <li class="page-item"><a class="page-link" href="/page/<%= i %>"><%= i %></a></li>
-        <% } %>
-        <% if (i == Number(current) + 4 && i < pages) { %>
-            <li class="disabled page-item"><a class="page-link">...</a></li>
-        <% } %>
-    <% } %>
-
-    
-    <!-- If user is on the last page, disables the Last link -->
-    <% if (current == pages) { %>
-        <li class="disabled page-item"><a class="page-link">Last</a></li>
-    <% } else { %>
-        <li class="page-item"><a class="page-link" href="/page/<%= pages %>">Last</a></li>
-    <% } %>
-    
-
-<!-- Closes the unordered list -->
-</ul>
-<% } %>
-
-<script src="/javascripts/instant-search.js"></script>
+        <li class="page-item <%= (current === pages - 1) ? 'disabled' : '' %>">
+            <a class="page-link" href="/page/<%= nextPage %>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+        
+    </ul>
+</nav>

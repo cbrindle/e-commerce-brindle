@@ -1,37 +1,45 @@
-const express = require('express');
-const router = express.Router();
-const categoryTool = require('./utils/categoryTool')
-const createProductController = require('./controllers/createProductController');
-const removeProduct = require('./controllers/removeProduct');
+const express = require('express')
+const router  = express.Router()
 
-// Test to ensure /api/admin is working
+const categoryValidation = require('./utils/categoryValidation')
+const categoryController = require('./controllers/categoryController')
+const createProductController = require('./controllers/createProductController')
+const editProductController = require('./controllers/editProductController')
+
 router.get('/', (req, res) => {
-    res.render('admin/admin')
+    res.send('hey from admin')
 })
 
-// Displays page for /api/admin/add-category
 router.get('/add-category', (req, res) => {
     res.render('products/addcategory')
 })
 
+router.post('/add-category', categoryValidation, (req, res) => {
+    categoryController.addCategory(req.body)
+                        .then(category => {
+                            req.flash('success', `Category ${category.name} created!`)
 
-// Handles 'Submit' button on /api/admin/add-category page
-router.post('/add-category', categoryTool.valAndCreate)
-
-
-// Display page for /api/admin/get-all-categories
-router.get('/get-all-categories', categoryTool.getAllCategories)
-
-// (Des)
-router.get('/create-fake-product/:categoryName/:categoryID', createProductController.createProductByCategoryID)
-
-// Renders the remove product page for an admin to use
-router.get('/removeproduct', (req, res) => {
-    res.render('products/remove')
+                            res.redirect('/api/admin/add-category')
+                        })
+                        .catch(error => {
+                            req.flash('errors', error.message)
+                            
+                            res.redirect('/api/admin/add-category')
+                        })
 })
 
-// Removes the desired product from the remove product page
-router.post('/removeproduct', removeProduct.remove)
+router.get('/get-all-categories', categoryController.getAllCategories)
 
+router.get('/create-fake-product/:categoryName/:categoryID', createProductController.createProductByCategoryID)
+
+router.get('/editproduct', editProductController.editProduct)
+
+
+router.get('/editproduct/:categoryID', editProductController.editProductPage)
+
+
+router.get('/editproduct/:categoryID/:productID', editProductController.editProductActual)
+
+router.post('/editproduct/:categoryID/:productID', editProductController.editProductPost)
 
 module.exports = router

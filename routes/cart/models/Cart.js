@@ -1,27 +1,13 @@
-// owner is reference to user
-// total type is Number, price * quantity
-// items 
-    // [
-        // item, reference to product
-        // price
-        // quantity
-    // ]
-
 const mongoose = require('mongoose')
+const Schema   = mongoose.Schema
 
-let CartSchema = new mongoose.Schema({
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
-    },
+const CartSchema = new Schema({
+    owner: { type: Schema.Types.ObjectId, ref: 'user' },
     total: { type: Number, default: 0 },
     items: [{
-        item: { 
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'product'
-        },
+        item:     { type: Schema.Types.ObjectId, ref: 'product' },
         quantity: { type: Number, default: 1 },
-        price: { type: Number, default: 0 }
+        price:    { type: Number, default: 0 }
     }]
 })
 
